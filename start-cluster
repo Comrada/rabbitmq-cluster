@@ -1,0 +1,60 @@
+#!/bin/bash
+
+HOSTNAME=$(env hostname)
+export RABBITMQ_LOGS=/var/log/rabbitmq/rabbit\@"$HOSTNAME".log
+
+##
+# RabbitMQ by default has a guest user, we don't need it, so we remove it.
+# In addition, if the default user was set in the environment variables, we create an admin with these credentials
+update_default_user() {
+	if [[ -z ${DEFAULT_USER} ]] && [[ -z ${DEFAULT_PASS} ]]; then
+		echo "Maintaining default 'guest' user"
+	else
+		echo "Removing 'guest' user and adding ${DEFAULT_USER}"
+		rabbitmqctl delete_user guest
+		rabbitmqctl add_user "${DEFAULT_USER}" "${DEFAULT_PASS}"
+		rabbitmqctl set_user_tags "${DEFAULT_USER}" administrator
+		rabbitmqctl set_permissions -p / "${DEFAULT_USER}" ".*" ".*" ".*"
+	fi
+}
+
+##
+# Checks whether the database folder has been created
+is_database_created() {
+  if [[ "$(ls -A /var/lib/rabbitmq/mnesia)" ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+##
+# Run the RabbitMQ server and wait until PID file is created
+start_server() {
+  rabbitmq-server &
+  rabbitmqctl wait /var/lib/rabbitmq/mnesia/rabbit\@"$HOSTNAME".pid
+}
+
+##
+# Continuous log output
+logging() {
+  tail -f /var/log/rabbitmq/rabbit\@"$HOSTNAME".log
+}
+
+if is_database_created; then
+  start_server
+  echo "An existing node is running."
+else
+  start_server
+  if [[ -z "$CLUSTER_WITH" ]]; then
+		init_settings
+		update_default_user
+		echo "The new master node is running."
+	else
+	  rabbitmqctl stop_app
+	  rabbitmqctl join_cluster rabbit@"${CLUSTER_WITH}"
+	  rabbitmqctl start_app
+		echo "The new slave node is running."
+	fi
+fi
+logging
