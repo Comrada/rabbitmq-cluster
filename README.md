@@ -89,6 +89,15 @@ services:
       RABBITMQ_USE_LONGNAME: 'true'
       CLUSTER_WITH: amqp1.company-site.com
       ERLANG_COOKIE: abcdefg
+      LDAP_SERVER: ldap.eng.megacorp.local
+      LDAP_PORT: 10636
+      LDAP_SSL: 'true'
+      LDAP_BIND_USER: ad_bind_user
+      LDAP_BIND_PASS: ad_bind_user_pass
+      LDAP_DN_LOOKUP_BASE: DC=gopivotal,DC=com
+      LDAP_GROUP_LOOKUP_BASE: ou=groups,dc=example,dc=com
+      LDAP_USER_ACCESS_GROUP: CN=amqp-users,OU=Groups,OU=ORG,DC=ORG,DC=com
+      LDAP_ADMIN_GROUP: CN=amqp-admins,OU=Groups,OU=ORG,DC=ORG,DC=com
     ports:
       - 5672:5671
       - 4369:4369
