@@ -5,7 +5,7 @@
 check_all_required_variables() {
   if [[ -z ${LDAP_BIND_USER} ]] || [[ -z ${LDAP_BIND_PASS} ]] || [[ -z ${LDAP_ADMIN_GROUP} ]] || \
    [[ -z ${LDAP_DN_LOOKUP_BASE} ]] || [[ -z ${LDAP_GROUP_LOOKUP_BASE} ]] || [[ -z ${LDAP_USER_ACCESS_GROUP} ]] || \
-   [[ -z ${LDAP_SERVER} ]] || [[ -z ${LDAP_PORT} ]] || [[ -z ${LDAP_SSL} ]]; then
+   [[ -z ${LDAP_SERVER} ]] || [[ -z ${LDAP_PORT} ]] || [[ -z ${LDAP_SSL} ]] || [[ -z ${LDAP_DOMAIN} ]]; then
     echo "You must provide all the necessary variables for integration with LDAP. See documentation."
     exit 0
   fi
@@ -26,6 +26,7 @@ insert_ldap_credentials() {
     rpl -q "<LDAP_GROUP_LOOKUP_BASE>" "${LDAP_GROUP_LOOKUP_BASE}" ${CONFIG_FILE}
     rpl -q "<LDAP_USER_ACCESS_GROUP>" "${LDAP_USER_ACCESS_GROUP}" ${CONFIG_FILE}
     rpl -q "<LDAP_ADMIN_GROUP>" "${LDAP_ADMIN_GROUP}" ${CONFIG_FILE}
+    rpl -q "<LDAP_DOMAIN>" "${LDAP_DOMAIN}" ${CONFIG_FILE}
 }
 
 ##

@@ -55,6 +55,7 @@ services:
       LDAP_SERVER: ldap.eng.megacorp.local
       LDAP_PORT: 10636
       LDAP_SSL: 'true'
+      LDAP_DOMAIN: domain.com
       LDAP_BIND_USER: ad_bind_user
       LDAP_BIND_PASS: ad_bind_user_pass
       LDAP_DN_LOOKUP_BASE: DC=gopivotal,DC=com
@@ -92,6 +93,7 @@ services:
       LDAP_SERVER: ldap.eng.megacorp.local
       LDAP_PORT: 10636
       LDAP_SSL: 'true'
+      LDAP_DOMAIN: domain.com
       LDAP_BIND_USER: ad_bind_user
       LDAP_BIND_PASS: ad_bind_user_pass
       LDAP_DN_LOOKUP_BASE: DC=gopivotal,DC=com
@@ -140,6 +142,7 @@ services:
       LDAP_SERVER: ldap.eng.megacorp.local
       LDAP_PORT: 10636
       LDAP_SSL: 'true'
+      LDAP_DOMAIN: domain.com
       LDAP_BIND_USER: ad_bind_user
       LDAP_BIND_PASS: ad_bind_user_pass
       LDAP_DN_LOOKUP_BASE: DC=gopivotal,DC=com
