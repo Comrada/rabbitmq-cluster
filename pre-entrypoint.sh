@@ -47,7 +47,7 @@ create_cookie_file() {
 # To increase security, we create a file with the ephemeral Diffie–Hellman key
 # http://ezgr.net/increasing-security-erlang-ssl-cowboy/
 create_dh_key() {
-    FILE=/opt/dh-params.pem
+    FILE=/ssl/dh-params.pem
     if [[ ! -f "$FILE" ]]; then
         openssl dhparam -out ${FILE} 2048
     fi
