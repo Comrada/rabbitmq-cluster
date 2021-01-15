@@ -52,7 +52,7 @@ services:
       DEFAULT_PASS: mypass
       CLUSTER_NAME: amqp-cluster-live
       ERLANG_COOKIE: abcdefg
-      LDAP_SERVER: ldap.eng.megacorp.local
+      LDAP_SERVERS: ldap.eng.megacorp.local,ldap.eu.megacorp.local
       LDAP_PORT: 10636
       LDAP_SSL: 'true'
       LDAP_DOMAIN: domain.com
@@ -90,7 +90,7 @@ services:
       RABBITMQ_USE_LONGNAME: 'true'
       CLUSTER_WITH: amqp1.company-site.com
       ERLANG_COOKIE: abcdefg
-      LDAP_SERVER: ldap.eng.megacorp.local
+      LDAP_SERVERS: ldap.eng.megacorp.local,ldap.eu.megacorp.local
       LDAP_PORT: 10636
       LDAP_SSL: 'true'
       LDAP_DOMAIN: domain.com
@@ -139,7 +139,7 @@ services:
       DEFAULT_PASS: mypass
       CLUSTER_NAME: amqp-cluster-live
       ERLANG_COOKIE: abcdefg
-      LDAP_SERVER: ldap.eng.megacorp.local
+      LDAP_SERVERs: ldap.eng.megacorp.local,ldap.eu.megacorp.local
       LDAP_PORT: 10636
       LDAP_SSL: 'true'
       LDAP_DOMAIN: domain.com
