@@ -7,29 +7,29 @@ export RABBITMQ_LOGS=/var/log/rabbitmq/rabbit\@"$HOSTNAME".log
 # RabbitMQ by default has a guest user, we don't need it, so we remove it.
 # In addition, if the default user was set in the environment variables, we create an admin with these credentials
 update_default_user() {
-	if [[ -z ${DEFAULT_USER} ]] && [[ -z ${DEFAULT_PASS} ]]; then
-		echo "Maintaining default 'guest' user"
-	else
-		echo "Removing 'guest' user and adding ${DEFAULT_USER}"
-		rabbitmqctl delete_user guest
-		rabbitmqctl add_user "${DEFAULT_USER}" "${DEFAULT_PASS}"
-		rabbitmqctl set_user_tags "${DEFAULT_USER}" administrator
-		rabbitmqctl set_permissions -p / "${DEFAULT_USER}" ".*" ".*" ".*"
-	fi
+  if [[ -z ${DEFAULT_USER} ]] && [[ -z ${DEFAULT_PASS} ]]; then
+    echo "Maintaining default 'guest' user"
+  else
+    echo "Removing 'guest' user and adding ${DEFAULT_USER}"
+    rabbitmqctl delete_user guest
+    rabbitmqctl add_user "${DEFAULT_USER}" "${DEFAULT_PASS}"
+    rabbitmqctl set_user_tags "${DEFAULT_USER}" administrator
+    rabbitmqctl set_permissions -p / "${DEFAULT_USER}" ".*" ".*" ".*"
+  fi
 }
 
 ##
 # Apply some initial settings
 init_settings() {
-    echo "Init some settings..."
-    if [[ -z ${CLUSTER_NAME} ]]; then
-      rabbitmqctl set_cluster_name rabbitmq-live
-    else
-      rabbitmqctl set_cluster_name "${CLUSTER_NAME}"
-    fi
-    rabbitmqctl set_policy maximum-queue-length "^one-meg$" '{"max-length-bytes":1048576}' --apply-to queues
-    rabbitmqctl set_policy ha-all "" \
-    '{"ha-mode":"all", "ha-promote-on-failure":"always", "ha-promote-on-shutdown":"always", "ha-sync-mode":"automatic"}'
+  echo "Init some settings..."
+  if [[ -z ${CLUSTER_NAME} ]]; then
+    rabbitmqctl set_cluster_name rabbitmq-live
+  else
+    rabbitmqctl set_cluster_name "${CLUSTER_NAME}"
+  fi
+  rabbitmqctl set_policy maximum-queue-length "^one-meg$" '{"max-length-bytes":1048576}' --apply-to queues
+  rabbitmqctl set_policy ha-all "" \
+  '{"ha-mode":"all", "ha-promote-on-failure":"always", "ha-promote-on-shutdown":"always", "ha-sync-mode":"automatic"}'
 }
 
 ##
@@ -61,14 +61,14 @@ if is_database_created; then
 else
   start_server
   if [[ -z "$CLUSTER_WITH" ]]; then
-		init_settings
-		update_default_user
-		echo "The new master node is running."
-	else
-	  rabbitmqctl stop_app
-	  rabbitmqctl join_cluster rabbit@"${CLUSTER_WITH}"
-	  rabbitmqctl start_app
-		echo "The new slave node is running."
-	fi
+    init_settings
+    update_default_user
+    echo "The new master node is running."
+  else
+    rabbitmqctl stop_app
+    rabbitmqctl join_cluster rabbit@"${CLUSTER_WITH}"
+    rabbitmqctl start_app
+    echo "The new slave node is running."
+  fi
 fi
 logging
