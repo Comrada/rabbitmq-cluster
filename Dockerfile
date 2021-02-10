@@ -1,4 +1,4 @@
-FROM rabbitmq:3.8.9-management
+FROM rabbitmq:3.8.11-management
 
 MAINTAINER Pavel Lobyrin <pavel@lobyrin.ru>
 
